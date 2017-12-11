@@ -8,16 +8,17 @@ import java.util.Optional;
 public class ElementFactory {
     private static Optional<ElementFactory> instance = Optional.empty();
 
-    private ElementFactory() {}
+    private ElementFactory() {
+    }
 
-    public static ElementFactory getInstance(){
-        if(!instance.isPresent()){
+    public static ElementFactory getInstance() {
+        if (!instance.isPresent()) {
             instance = Optional.of(new ElementFactory());
         }
         return instance.get();
     }
 
-    public IElement createElement(Node node, Job job){
+    public IElement createElement(Node node, Job job) {
         return new StudioElement(node, job);
     }
 }

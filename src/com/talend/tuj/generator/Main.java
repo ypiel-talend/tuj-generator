@@ -17,7 +17,7 @@ public class Main {
 
 
         Migrator migrator = new Migrator(conf);
-        List<TUJ> migratedTUJs =  migrator.migrate(tujs);
+        List<TUJ> migratedTUJs = migrator.migrate(tujs);
 
         TUJExporter.exportTUJ(conf, migratedTUJs);
 

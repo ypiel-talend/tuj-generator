@@ -24,7 +24,7 @@ public class Job {
     private Optional<Path> fsPath;
     private Optional<TUJ> tuj = Optional.empty();
 
-    public Job(Document properties, Document item, Document screenshot, Optional<Path> jobPath){
+    public Job(Document properties, Document item, Document screenshot, Optional<Path> jobPath) {
         this.properties = properties;
         this.item = item;
         this.screenshot = screenshot;
@@ -35,7 +35,7 @@ public class Job {
         writeNameAndVersion();
     }
 
-    private void writeId(){
+    private void writeId() {
         this.id = Optional.of(properties.getElementsByTagName("TalendProperties:Property").item(0).getAttributes().getNamedItem("id").getNodeValue()).orElse("null");
     }
 
@@ -51,15 +51,15 @@ public class Job {
         this.tuj = Optional.of(tuj);
     }
 
-    public void addChildJob(Job job){
+    public void addChildJob(Job job) {
         this.childJobs.add(job);
     }
 
-    public Node getItem(){
+    public Node getItem() {
         return item;
     }
 
-    public Node getProperties(){
+    public Node getProperties() {
         return properties;
     }
 
@@ -99,42 +99,47 @@ public class Job {
         return framework;
     }
 
-    public List<String> findChildjobs(){
+    public List<String> findChildjobs() {
         List<String> childJobs = new ArrayList<>();
 
         NodeList components = this.item.getElementsByTagName("node");
-        for (int nodeIndex = 0 ; nodeIndex < components.getLength() ; nodeIndex++){
+        for (int nodeIndex = 0; nodeIndex < components.getLength(); nodeIndex++) {
             Node component = components.item(nodeIndex);
-            try{
-                if(component.getAttributes().getNamedItem("componentName").getNodeValue().equals("tRunJob")){
+            try {
+                if (component.getAttributes().getNamedItem("componentName").getNodeValue().equals("tRunJob")) {
                     NodeList componentParameters = component.getChildNodes();
-                    for (int parameterIndex = 0 ; parameterIndex < componentParameters.getLength() ; parameterIndex++){
+                    for (int parameterIndex = 0; parameterIndex < componentParameters.getLength(); parameterIndex++) {
                         Node componentParameter = componentParameters.item(parameterIndex);
-                        try{
-                            if (componentParameter.getAttributes().getNamedItem("name").getNodeValue().equals("PROCESS:PROCESS_TYPE_PROCESS")){
+                        try {
+                            if (componentParameter.getAttributes().getNamedItem("name").getNodeValue().equals("PROCESS:PROCESS_TYPE_PROCESS")) {
                                 childJobs.add(componentParameter.getAttributes().getNamedItem("value").getNodeValue());
                             }
-                        } catch (NullPointerException ignored){}
+                        } catch (NullPointerException ignored) {
+                        }
                     }
                 }
-            } catch (NullPointerException ignored){}
+            } catch (NullPointerException ignored) {
+            }
         }
         return childJobs;
     }
 
-    private void writeJobTypeAndFramework(){
-        try{
+    private void writeJobTypeAndFramework() {
+        try {
             NamedNodeMap attributes = this.item.getElementsByTagName("talendfile:ProcessType").item(0).getAttributes();
             this.jobType = JobType.valueOf(attributes.getNamedItem("jobType").getNodeValue().toUpperCase());
             this.framework = JobFramework.valueOf(attributes.getNamedItem("framework").getNodeValue().toUpperCase());
-        } catch (NullPointerException ignored){}
+        } catch (NullPointerException ignored) {
+            this.framework = JobFramework.NONE;
+        }
     }
 
-    private void writeNameAndVersion(){
-        try{
+    private void writeNameAndVersion() {
+        try {
             NamedNodeMap attributes = this.properties.getElementsByTagName("TalendProperties:Property").item(0).getAttributes();
             this.name = attributes.getNamedItem("label").getNodeValue();
             this.version = attributes.getNamedItem("version").getNodeValue();
-        } catch (NullPointerException ignored){}
+        } catch (NullPointerException ignored) {
+        }
     }
 }

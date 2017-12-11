@@ -10,11 +10,11 @@ public enum DistributionType {
 
     private String xmlDistributionName;
 
-    DistributionType(String xmlDistributionName){
+    DistributionType(String xmlDistributionName) {
         this.xmlDistributionName = xmlDistributionName;
     }
 
-    public String getXmlDistributionName(){
+    public String getXmlDistributionName() {
         return xmlDistributionName;
     }
 }

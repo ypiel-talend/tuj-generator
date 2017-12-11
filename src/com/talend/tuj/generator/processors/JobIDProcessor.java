@@ -12,21 +12,20 @@ public class JobIDProcessor implements IProcessor {
 
     @Override
     public boolean shouldBeProcessed(IElement component) {
-        String componentName =  component.getAttribute("componentName").orElse("");
+        String componentName = component.getAttribute("componentName").orElse("");
 
         return (component.isOfType(NodeType.COMPONENT) && componentName.equals("tRunJob")) || component.isOfType(NodeType.TPProperty);
     }
 
     @Override
     public void process(IElement component) {
-        if(component.isOfType(NodeType.COMPONENT)){
+        if (component.isOfType(NodeType.COMPONENT)) {
             String newId = JobID.generateJobID();
             oldNewIdRelation.put(component.getParameter("PROCESS:PROCESS_TYPE_PROCESS").orElse(""), newId);
             component.replaceParameter("PROCESS:PROCESS_TYPE_PROCESS", newId);
-        }
-        else if(component.isOfType(NodeType.TPProperty)){
+        } else if (component.isOfType(NodeType.TPProperty)) {
             String oldId = component.getAttribute("id").orElse("");
-            if (!oldNewIdRelation.containsKey(oldId)){
+            if (!oldNewIdRelation.containsKey(oldId)) {
                 oldNewIdRelation.put(oldId, JobID.generateJobID());
             }
             String newId = oldNewIdRelation.get(oldId);

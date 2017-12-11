@@ -1,6 +1,5 @@
 package com.talend.tuj.generator.utils;
 
-import com.talend.tuj.generator.utils.Job;
 import org.w3c.dom.Document;
 
 import java.nio.file.Path;
@@ -13,7 +12,7 @@ public class TUJ {
     private String projectName;
     private List<Path> resources;
 
-    public TUJ(Job job, Document project, List<Path> resources, String name, String projectName){
+    public TUJ(Job job, Document project, List<Path> resources, String name, String projectName) {
         this.starter = job;
         this.project = project;
         this.resources = resources;
@@ -44,5 +43,9 @@ public class TUJ {
 
     public List<Path> getResources() {
         return resources;
+    }
+
+    public Document getProject() {
+        return project;
     }
 }

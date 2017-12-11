@@ -11,14 +11,24 @@ import java.util.Optional;
 
 public interface IElement {
     boolean isOfType(NodeType type);
+
     Optional<String> getAttribute(String attribute);
+
     void replaceAttribute(String attribute, String value);
+
     Optional<String> getParameter(String parameter);
+
     void replaceParameter(String parameter, String value);
+
     boolean isJobOfType(JobType type);
+
     boolean isJobOfFramework(JobFramework type);
+
     Map<String, String> getAllParameters();
+
     void replaceParameters(Map<String, String> newParameters);
+
     Job getParentJob();
+
     Node getRawNode();
 }

@@ -5,7 +5,7 @@ import com.talend.tuj.generator.utils.JobFramework;
 import com.talend.tuj.generator.utils.JobType;
 import com.talend.tuj.generator.utils.NodeType;
 
-public class GenericDistributionConfigurationProcessor implements IProcessor{
+public class GenericDistributionConfigurationProcessor implements IProcessor {
     private String distribution_name;
     private String distribution_version;
 
@@ -23,7 +23,8 @@ public class GenericDistributionConfigurationProcessor implements IProcessor{
     public void process(IElement component) {
         component.replaceParameter("DISTRIBUTION", distribution_name);
 
-        if (component.isJobOfFramework(JobFramework.MAPREDUCE)) component.replaceParameter("MR_VERSION", distribution_version);
+        if (component.isJobOfFramework(JobFramework.MAPREDUCE))
+            component.replaceParameter("MR_VERSION", distribution_version);
         else component.replaceParameter("SPARK_VERSION", distribution_version);
     }
 }

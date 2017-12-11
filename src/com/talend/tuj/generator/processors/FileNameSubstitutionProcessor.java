@@ -26,15 +26,15 @@ public class FileNameSubstitutionProcessor implements IProcessor {
 
     @Override
     public void process(IElement component) {
-        if(component.isOfType(NodeType.TPProperty)){
+        if (component.isOfType(NodeType.TPProperty)) {
             Job parentJob = component.getParentJob();
 
             parentJob.setName(applySubstitutions(parentJob.getName()));
-            if(parentJob.getFsPath().isPresent()){
+            if (parentJob.getFsPath().isPresent()) {
                 parentJob.setFsPath(Optional.of(Paths.get(applySubstitutions(parentJob.getFsPath().get().toString()))));
             }
 
-            if(parentJob.getTuj().isPresent()){
+            if (parentJob.getTuj().isPresent()) {
                 TUJ parentTUJ = parentJob.getTuj().get();
                 parentTUJ.setName(applySubstitutions(parentTUJ.getName()));
                 parentTUJ.setProjectName(applySubstitutions(parentTUJ.getProjectName()));
@@ -43,20 +43,20 @@ public class FileNameSubstitutionProcessor implements IProcessor {
             component.replaceAttribute("label", applySubstitutions(component.getAttribute("label").orElse("")));
             component.replaceAttribute("displayName", applySubstitutions(component.getAttribute("displayName").orElse("")));
 
-        } else if(component.isOfType(NodeType.TPItemState)){
+        } else if (component.isOfType(NodeType.TPItemState)) {
             component.replaceAttribute("path", applySubstitutions(component.getAttribute("path").orElse("")));
-        } else if(component.isOfType(NodeType.TPProcessItem)){
+        } else if (component.isOfType(NodeType.TPProcessItem)) {
             Node node = component.getRawNode().getChildNodes().item(1).getAttributes().getNamedItem("href");
             node.setNodeValue(applySubstitutions(node.getNodeValue()));
-        } else if(component.isOfType(NodeType.COMPONENT)){
+        } else if (component.isOfType(NodeType.COMPONENT)) {
             component.replaceAttribute("PROCESS", applySubstitutions(component.getAttribute("PROCESS").orElse("")));
         }
 
     }
 
-    private String applySubstitutions(String str){
+    private String applySubstitutions(String str) {
         String newStr = str;
-        for(Map.Entry<String, String> entry : substitutions.entrySet()){
+        for (Map.Entry<String, String> entry : substitutions.entrySet()) {
             newStr = newStr.replaceAll(entry.getKey(), entry.getValue());
         }
         return newStr;

@@ -22,19 +22,19 @@ public class ContextSubstitutionProcessor implements IProcessor {
     @Override
     public void process(IElement component) {
         component.replaceParameters(
-            component.getAllParameters().entrySet().stream().filter(
-                parameter -> substitutions.keySet().stream().anyMatch(parameter.getValue()::contains)
-            ).peek(
-                parameter -> {
-                    String newParameter = parameter.getValue();
-                    for(Map.Entry<String, String> entry : substitutions.entrySet()){
-                        newParameter = newParameter.replaceAll(entry.getKey(), entry.getValue());
-                    }
-                    parameter.setValue(newParameter);
-                }
-            ).collect(
-                    Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue)
-            )
+                component.getAllParameters().entrySet().stream().filter(
+                        parameter -> substitutions.keySet().stream().anyMatch(parameter.getValue()::contains)
+                ).peek(
+                        parameter -> {
+                            String newParameter = parameter.getValue();
+                            for (Map.Entry<String, String> entry : substitutions.entrySet()) {
+                                newParameter = newParameter.replaceAll(entry.getKey(), entry.getValue());
+                            }
+                            parameter.setValue(newParameter);
+                        }
+                ).collect(
+                        Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue)
+                )
         );
     }
 }

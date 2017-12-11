@@ -3,7 +3,7 @@ package com.talend.tuj.generator.conf;
 import org.apache.commons.cli.*;
 
 public class ArgsHandler {
-    public static TUJGeneratorConfiguration handle(String[] args){
+    public static TUJGeneratorConfiguration handle(String[] args) {
 
         Options options = new Options();
 
@@ -33,7 +33,7 @@ public class ArgsHandler {
         options.addOption(distributionVersion);
 
         // TODO support that mode
-        Option tuj = new Option("t", "tuj", true, "one TUJ mode, will migrate only the selected TUJ");
+        Option tuj = new Option("t", "tuj-filter", true, "will filter the TUJs by name matching the given string (can be regex)");
         tuj.setRequired(false);
         options.addOption(tuj);
 
@@ -56,9 +56,9 @@ public class ArgsHandler {
         conf.put("output", cmd.getOptionValue('o'));
         conf.put("distributionName", cmd.getOptionValue('N'));
         conf.put("distributionValue", cmd.getOptionValue('V'));
-        if(cmd.hasOption('t')) conf.put("tuj", cmd.getOptionValue('t'));
-        if(cmd.hasOption('S')) conf.put("fileSubstitution", cmd.getOptionValue('S'));
-        if(cmd.hasOption('s')) conf.put("contextSubstitution", cmd.getOptionValue('s'));
+        if (cmd.hasOption('t')) conf.put("tuj", cmd.getOptionValue('t'));
+        if (cmd.hasOption('S')) conf.put("fileSubstitution", cmd.getOptionValue('S'));
+        if (cmd.hasOption('s')) conf.put("contextSubstitution", cmd.getOptionValue('s'));
         return conf;
     }
 }

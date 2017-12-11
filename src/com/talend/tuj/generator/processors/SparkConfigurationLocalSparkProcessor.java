@@ -7,7 +7,7 @@ import com.talend.tuj.generator.utils.NodeType;
 public class SparkConfigurationLocalSparkProcessor implements IProcessor {
     private String distribution_version;
 
-    public SparkConfigurationLocalSparkProcessor(String local_spark_version){
+    public SparkConfigurationLocalSparkProcessor(String local_spark_version) {
         this.distribution_version = local_spark_version;
     }
 
@@ -18,9 +18,10 @@ public class SparkConfigurationLocalSparkProcessor implements IProcessor {
 
     @Override
     public void process(IElement component) {
-        try{
+        try {
             component.replaceParameter("SPARK_LOCAL_MODE", "true");
             component.replaceParameter("SPARK_LOCAL_VERSION", distribution_version);
-        }catch(NullPointerException ignored){}
+        } catch (NullPointerException ignored) {
+        }
     }
 }

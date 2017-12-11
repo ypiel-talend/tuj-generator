@@ -7,10 +7,10 @@ public class SubstitutionCmdHandler {
     /*
     arg : xxx=>yyy;aa=>bb
      */
-    public static Map<String, String> processArgument(String arg){
+    public static Map<String, String> processArgument(String arg) {
         Map<String, String> substitutions = new HashMap<>();
 
-        for(String substitution : arg.split(";")){
+        for (String substitution : arg.split(";")) {
             String[] parts = substitution.split("=>");
             substitutions.put(parts[0], parts[1]);
         }

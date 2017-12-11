@@ -12,11 +12,11 @@ public enum NodeType {
 
     private String xmlNodeName;
 
-    NodeType(String xmlNodeName){
+    NodeType(String xmlNodeName) {
         this.xmlNodeName = xmlNodeName;
     }
 
-    public String getXmlNodeName(){
+    public String getXmlNodeName() {
         return xmlNodeName;
     }
 }

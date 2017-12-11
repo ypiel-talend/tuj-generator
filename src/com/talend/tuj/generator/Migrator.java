@@ -19,14 +19,14 @@ public class Migrator {
     private List<IProcessor> processors = new ArrayList<>();
     private static ElementFactory elmtFactory = ElementFactory.getInstance();
 
-    public Migrator(TUJGeneratorConfiguration conf){
+    public Migrator(TUJGeneratorConfiguration conf) {
         processors.add(new JobIDProcessor());
-        if(conf.containsKey("fileSubstitution")){
+        if (conf.containsKey("fileSubstitution")) {
             processors.add(new FileNameSubstitutionProcessor(SubstitutionCmdHandler.processArgument(conf.get("fileSubstitution"))));
         }
 
         try {
-            switch (conf.getDistributionName()){
+            switch (conf.getDistributionName()) {
                 case SPARK_LOCAL:
                     processors.add(new SparkConfigurationLocalSparkProcessor(conf.get("distributionVersion")));
                     break;
@@ -44,36 +44,36 @@ public class Migrator {
         }
     }
 
-    public TUJ migrate(TUJ tuj){
+    public TUJ migrate(TUJ tuj) {
         System.out.println("Processing TUJ : " + tuj.getName());
         navigateJob(tuj.getStarterJob());
         return tuj;
     }
 
-    public List<TUJ> migrate(List<TUJ> tujs){
+    public List<TUJ> migrate(List<TUJ> tujs) {
         return tujs.stream().map(this::migrate).collect(Collectors.toList());
     }
 
-    private void navigateJob(Job job){
+    private void navigateJob(Job job) {
         iterateNodes(job.getProperties().getChildNodes(), job);
         iterateNodes(job.getItem().getChildNodes(), job);
 
         job.getChildJobs().forEach(this::navigateJob);
     }
 
-    private void iterateNodes(NodeList nodes, Job job){
-        for (int nodeIndex = 0 ; nodeIndex < nodes.getLength() ; nodeIndex++){
+    private void iterateNodes(NodeList nodes, Job job) {
+        for (int nodeIndex = 0; nodeIndex < nodes.getLength(); nodeIndex++) {
             Node node = nodes.item(nodeIndex);
 
             IElement component = elmtFactory.createElement(node, job);
 
             processors.forEach(
-                processor -> {
-                    if (processor.shouldBeProcessed(component)) processor.process(component);
-                }
+                    processor -> {
+                        if (processor.shouldBeProcessed(component)) processor.process(component);
+                    }
             );
 
-            if(node.hasChildNodes()) iterateNodes(node.getChildNodes(), job);
+            if (node.hasChildNodes()) iterateNodes(node.getChildNodes(), job);
         }
     }
 

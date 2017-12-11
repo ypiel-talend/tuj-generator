@@ -16,7 +16,7 @@ public abstract class AbstractElement implements IElement {
     protected Node xmlNode;
     protected Job job;
 
-    public AbstractElement(Node node, Job job){
+    public AbstractElement(Node node, Job job) {
         this.xmlNode = node;
         this.job = job;
     }
@@ -28,34 +28,33 @@ public abstract class AbstractElement implements IElement {
 
     @Override
     public Optional<String> getAttribute(String attribute) {
-        try{
+        try {
             return Optional.of(xmlNode.getAttributes().getNamedItem(attribute).getNodeValue());
-        }
-        catch (NullPointerException e){
+        } catch (NullPointerException e) {
             return Optional.empty();
         }
     }
 
     @Override
     public void replaceAttribute(String attribute, String value) {
-        try{
+        try {
             xmlNode.getAttributes().getNamedItem(attribute).setNodeValue(value);
+        } catch (NullPointerException ignored) {
         }
-        catch (NullPointerException ignored){}
     }
 
     @Override
     public Optional<String> getParameter(String parameter) {
         if (xmlNode.hasChildNodes()) {
             NodeList childs = xmlNode.getChildNodes();
-            for (int nodeIndex = 0 ; nodeIndex < childs.getLength() ; nodeIndex++){
+            for (int nodeIndex = 0; nodeIndex < childs.getLength(); nodeIndex++) {
                 Node childNode = childs.item(nodeIndex);
-                try{
-                    if(childNode.getAttributes().getNamedItem("name").getNodeValue().equals(parameter)){
+                try {
+                    if (childNode.getAttributes().getNamedItem("name").getNodeValue().equals(parameter)) {
                         return Optional.of(childNode.getAttributes().getNamedItem("value").getNodeValue());
                     }
+                } catch (NullPointerException ignored) {
                 }
-                catch (NullPointerException ignored){}
             }
         }
         return Optional.empty();
@@ -65,14 +64,14 @@ public abstract class AbstractElement implements IElement {
     public void replaceParameter(String parameter, String value) {
         if (xmlNode.hasChildNodes()) {
             NodeList childs = xmlNode.getChildNodes();
-            for (int nodeIndex = 0 ; nodeIndex < childs.getLength() ; nodeIndex++){
+            for (int nodeIndex = 0; nodeIndex < childs.getLength(); nodeIndex++) {
                 Node childNode = childs.item(nodeIndex);
-                try{
-                    if(childNode.getAttributes().getNamedItem("name").getNodeValue().equals(parameter)){
+                try {
+                    if (childNode.getAttributes().getNamedItem("name").getNodeValue().equals(parameter)) {
                         childNode.getAttributes().getNamedItem("value").setNodeValue(value);
                     }
+                } catch (NullPointerException ignored) {
                 }
-                catch (NullPointerException ignored){}
             }
         }
     }
@@ -92,7 +91,7 @@ public abstract class AbstractElement implements IElement {
         Map<String, String> parameters = new HashMap<>();
 
         NodeList childs = xmlNode.getChildNodes();
-        for (int nodeIndex = 0 ; nodeIndex < childs.getLength() ; nodeIndex++){
+        for (int nodeIndex = 0; nodeIndex < childs.getLength(); nodeIndex++) {
             NamedNodeMap childAttributes = childs.item(nodeIndex).getAttributes();
             parameters.put(childAttributes.getNamedItem("name").getNodeValue(), childAttributes.getNamedItem("value").getNodeValue());
         }
@@ -103,10 +102,10 @@ public abstract class AbstractElement implements IElement {
     @Override
     public void replaceParameters(Map<String, String> newParameters) {
         NodeList childs = xmlNode.getChildNodes();
-        for (int nodeIndex = 0 ; nodeIndex < childs.getLength() ; nodeIndex++){
+        for (int nodeIndex = 0; nodeIndex < childs.getLength(); nodeIndex++) {
             NamedNodeMap childAttributes = childs.item(nodeIndex).getAttributes();
             String attributeName = childAttributes.getNamedItem("name").getNodeValue();
-            if(newParameters.containsKey(attributeName)){
+            if (newParameters.containsKey(attributeName)) {
                 replaceParameter(attributeName, newParameters.get(attributeName));
             }
         }
