@@ -11,28 +11,29 @@ public class ArgsHandler {
         input.setRequired(true);
         options.addOption(input);
 
-        Option output = new Option("o", "output", true, "input TUJ folder");
+        Option output = new Option("o", "output", true, "output folder for generated TUJ");
         output.setRequired(true);
         options.addOption(output);
 
         // TODO Can be ignored as Colibri overwrites contexts
-        Option contextSubstitution = new Option("s", "context-substitution", true, "input TUJ folder");
+        Option contextSubstitution = new Option("s", "context-substitution", true, "substitutions for context values. For example : aaa=>bbb;ccc=>ddd will replace aaa by bbb and ccc by ddd in contexts");
         contextSubstitution.setRequired(false);
         options.addOption(contextSubstitution);
 
-        Option fileSubstitution = new Option("S", "file-substitution", true, "input TUJ folder");
+        Option fileSubstitution = new Option("S", "file-substitution", true, "substitutions for file and folder names. For example : aaa=>bbb;ccc=>ddd will replace aaa by bbb and ccc by ddd in names");
         fileSubstitution.setRequired(false);
         options.addOption(fileSubstitution);
 
-        Option distributionName = new Option("N", "distribution-name", true, "input TUJ folder");
+        Option distributionName = new Option("N", "distribution-name", true, "name of the distribution to generate the TUJs. See mapping.md for supported distribution names");
         distributionName.setRequired(true);
         options.addOption(distributionName);
 
-        Option distributionVersion = new Option("V", "distribution-version", true, "input TUJ folder");
+        Option distributionVersion = new Option("V", "distribution-version", true, "version of the distribution to generate the TUJs. See mapping.md for supported distribution version format (not checked)");
         distributionVersion.setRequired(true);
         options.addOption(distributionVersion);
 
-        Option tuj = new Option("t", "tuj", true, "input TUJ folder");
+        // TODO support that mode
+        Option tuj = new Option("t", "tuj", true, "one TUJ mode, will migrate only the selected TUJ");
         tuj.setRequired(false);
         options.addOption(tuj);
 

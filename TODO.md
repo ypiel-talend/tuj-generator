@@ -1,5 +1,2 @@
-* Command arguments reader
-* Directory TUJ importing
-* .project, static files, .screenshot copying
-* Clean I/O code
-* Distribution processors (CDH, HDP, ...)
+* Distribution specific processors (CDH, HDP, ...), think hdp.version=x.x.x customization
+* One TUJ migration mode (-t / --tuj)
